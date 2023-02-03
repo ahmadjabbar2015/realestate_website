@@ -1,6 +1,83 @@
 import React from "react";
+import TinySlider from "tiny-slider-react";
+import "tiny-slider/dist/tiny-slider.css";
+import { tns } from "tiny-slider/src/tiny-slider";
 
 function HeroArea() {
+  const slider = function () {
+    var heroSlider = document.querySelectorAll(".hero-slider");
+    if (heroSlider.length > 0) {
+      var heroSlider = tns({
+        container: ".hero-slider",
+        items: 1,
+        mode: "carousel",
+        autoplay: true,
+        animateIn: "tns-fadeIn",
+        animateOut: "tns-fadeOut",
+        speed: 1000,
+        nav: false,
+        controls: false,
+        autoplayButtonOutput: false,
+      });
+    }
+  };
+  slider();
+
+  var elements;
+  var windowHeight;
+
+  function init() {
+    elements = document.querySelectorAll(".ftco-about-section");
+    windowHeight = window.innerHeight;
+  }
+
+  var counter = function () {
+    function countUp(elem) {
+      var current = elem.innerHTML;
+
+      var timeIntervalBeforeIncrement = 2000 / elem.getAttribute("data-count");
+
+      var interval = setInterval(increase, timeIntervalBeforeIncrement);
+
+      function increase() {
+        elem.innerHTML = current++;
+        if (current > elem.getAttribute("data-count")) {
+          clearInterval(interval);
+        }
+      }
+    }
+
+    var span = document.querySelectorAll("[id^='count']");
+
+    var i = 0;
+    for (i = 0; i < span.length; i++) {
+      countUp(span[i]);
+    }
+  };
+
+  function checkPosition() {
+    var i;
+    for (i = 0; i < elements.length; i++) {
+      var element = elements[i];
+      var positionFromTop = elements[i].getBoundingClientRect().top;
+      if (positionFromTop - windowHeight <= 0) {
+        if (!element.classList.contains("viewed")) {
+          element.classList.add("viewed");
+          counter();
+        } else {
+          if (element.classList.contains("viewed")) {
+          }
+        }
+        // console.log('igo');
+      }
+    }
+  }
+  window.addEventListener("scroll", checkPosition);
+  window.addEventListener("resize", init);
+
+  init();
+  checkPosition();
+
   return (
     <section className="slider-hero">
       <div className="overlay"></div>

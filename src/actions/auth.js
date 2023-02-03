@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function LoginUser(fromData) {
-  //   const response = axios
+  // const response = axios
   //     .post("http://realstate.demo.crossdevlogix.com/api/login", fromData, {
   //       headers: {
   //         "Content-Type": "application/json",
@@ -15,7 +15,7 @@ function LoginUser(fromData) {
   //     });
   // response
 
-  //   const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const getToken = () => {
     const tokenString = sessionStorage.getItem("token");
@@ -38,16 +38,16 @@ function LoginUser(fromData) {
 
     setToken(token);
     setUser(user);
-    // navigate("/dashboard");
+    navigate("/");
   };
 
   const logout = () => {
     sessionStorage.clear();
-    // navigate("/login");
+    navigate("/login");
   };
 
   const http = axios.create({
-    baseURL: "http://realstate.demo.crossdevlogix.com/api",
+    baseURL: "http://demo.pms.crossdevlogix.com/api",
     headers: {
       "Content-type": "application/json",
       Authorization: `Bearer ${token}`,

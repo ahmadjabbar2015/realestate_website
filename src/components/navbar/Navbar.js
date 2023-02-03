@@ -1,7 +1,38 @@
 import "./Navbar.css";
-import React, { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import LoginUser from "../../actions/auth";
+import PropertySearch from "../../actions/propertySearch.js";
+
 function Navbar() {
+  const { getToken } = LoginUser();
+
+  const url = PropertySearch();
+  const [logo, setLogo] = useState([]);
+  const fetchLogo = () => {
+    url.get("/properties").then((res) => {
+      setLogo(res);
+    });
+  };
+
+  useEffect(() => {
+    fetchLogo();
+    check();
+  }, []);
+  const login = () => {
+    return (
+      <li className="nav-item">
+        <Link className="nav-link" to="/login"></Link>
+      </li>
+    );
+  };
+
+  const check = () => {
+    if (!getToken()) {
+      login();
+    }
+  };
+
   return (
     <Fragment>
       {/* <div className="py-4 top-wrap">
@@ -66,6 +97,7 @@ function Navbar() {
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav m-auto mb-2 mb-lg-0">
+              {/* {getToken && login} */}
               <li className="nav-item">
                 <Link className="nav-link" to="/login">
                   Login
@@ -77,7 +109,7 @@ function Navbar() {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="properties.html">
+                <Link className="nav-link" to="property">
                   Properties
                 </Link>
               </li>
