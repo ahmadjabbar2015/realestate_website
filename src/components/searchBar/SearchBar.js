@@ -21,6 +21,7 @@ function SearchBar({
     url
       .get("/properties?name=" + keyword + "&propertytype=" + propertytype)
       .then((res) => {
+        console.log(url.get());
         console.log(res);
         fetchSearchResults(res);
       });

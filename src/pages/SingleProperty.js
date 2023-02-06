@@ -3,21 +3,24 @@ import { useParams } from "react-router-dom";
 import { useState } from "react";
 import PropertySearch from "../actions/propertySearch.js";
 import { useEffect } from "react";
+import Amenities from "../components/Amenities.js";
 
 const SingleProperty = () => {
+  const [propertyAmenities, setPropertyAmenities] = useState([]);
+  // let propertyAmenities = [];
   const { id } = useParams();
   const url = PropertySearch();
   const [property, setProperty] = useState([]);
   const fetchProperty = () => {
     url.get("/property/" + id).then((res) => {
       setProperty(res.data.data[0]);
-      console.log(res.data.data[0]);
+      setPropertyAmenities(res.data.data[0]?.amenities?.animities);
     });
   };
   useEffect(() => {
     fetchProperty();
   }, []);
-  console.log(id);
+  // console.log(id);
   return (
     <>
       <section className="ftco-section" style={{ padding: " 4.9em 0" }}>
@@ -28,7 +31,11 @@ const SingleProperty = () => {
               <h5 style={{ marginBottom: "0" }}>
                 {property?.name ? property.name : ""}
               </h5>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+              <p>
+                {property?.location?.address ? property.location.address : ""},{" "}
+                {property?.location?.city ? property.location.city : ""}, {""}
+                {property?.location?.state ? property.location.state : ""}
+              </p>
             </div>
           </div>
           <hr className="hr" />
@@ -125,28 +132,40 @@ const SingleProperty = () => {
                     aria-label="Property details"
                   >
                     <li className="tab-detail__list-item">
-                      <span className="list-item_col-1">Type</span>
+                      <span className="list-item_col-1">Area</span>
                       <span className="list-item_col-2" aria-label="Type">
-                        House
+                        {property?.area ? property.area : ""}
                       </span>
                     </li>
 
                     <li className="tab-detail__list-item">
-                      <span className="list-item_col-1">Type</span>
+                      <span className="list-item_col-1">Price</span>
                       <span className="list-item_col-2" aria-label="Type">
-                        House
+                        {property?.rent ? property.rent : ""}
                       </span>
                     </li>
                     <li className="tab-detail__list-item">
-                      <span className="list-item_col-1">Type</span>
+                      <span className="list-item_col-1">Rooms</span>
                       <span className="list-item_col-2" aria-label="Type">
-                        House
+                        {property?.amenities?.room
+                          ? property.amenities.room
+                          : ""}
                       </span>
                     </li>
                     <li className="tab-detail__list-item">
-                      <span className="list-item_col-1">Type</span>
+                      <span className="list-item_col-1">BedRooms</span>
                       <span className="list-item_col-2" aria-label="Type">
-                        House
+                        {property?.amenities?.bedroom
+                          ? property.amenities.bedroom
+                          : ""}
+                      </span>
+                    </li>
+                    <li className="tab-detail__list-item">
+                      <span className="list-item_col-1">Bathrooms</span>
+                      <span className="list-item_col-2" aria-label="Type">
+                        {property?.amenities?.bathroom
+                          ? property.amenities.bathroom
+                          : ""}
                       </span>
                     </li>
                   </ul>
@@ -164,26 +183,7 @@ const SingleProperty = () => {
                       <div className="" aria-label="Property description">
                         <div dir="auto">
                           <span className="">
-                            Chohan HAY Estate Offers
-                            <br />- Front Back Open
-                            <br />- Lane Corner House
-                            <br />- 6 Bedrooms with Attached Washrooms
-                            <br />- Drawing and TV Lounge
-                            <br />- Elegant Kitchen
-                            <br />- Modern Bath
-                            <br />- Wooden Floor
-                            <br />- Servant Quarters with Kitchen and Washroom
-                            <br />- Laundry Area
-                            <br />- Terrace
-                            <br />- Lawn
-                            <br />- Water Bore and CDA Water
-                            <br />- Very Prime Location
-                            <br />- Don t Waste Your Time, Just Grab this
-                            Opportunity
-                            <br />
-                            For more information and other information, Kindly
-                            contact at mentioned numbers or visit CHOHAN HAY
-                            ESTATE
+                            {property?.description ? property.description : ""}
                           </span>
                         </div>
                       </div>
@@ -197,9 +197,18 @@ const SingleProperty = () => {
                   </div>
                 </div>
               </div>
-
+              {console.log(propertyAmenities ? propertyAmenities : "tttt")}
+              {/* {property.amenities.animities
+                ? property.amenities.animities
+                : "K"} */}
               <div className="tag-widget post-tag-container mb-5 mt-5">
                 <div className="tagcloud">
+                  {console.log("KKK", propertyAmenities)}
+
+                  {propertyAmenities && (
+                    <Amenities amenity={propertyAmenities} />
+                  )}
+
                   <a href="#" className="tag-cloud-link">
                     house
                   </a>

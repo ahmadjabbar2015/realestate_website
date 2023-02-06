@@ -130,9 +130,12 @@ function Navbar() {
               </li>
             </ul>
             <p className="mb-0">
-              <Link to="#" className="btn btn-primary rounded">
+              <a
+                href="https://demo.pms.crossdevlogix.com/login"
+                className="btn btn-primary rounded"
+              >
                 Submit A Property
-              </Link>
+              </a>
             </p>
           </div>
         </div>
